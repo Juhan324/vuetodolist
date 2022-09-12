@@ -111,7 +111,7 @@ td {
     max-width: 30px;
 }
 
-.checked {
+.true {
     text-decoration-line: line-through;
     color: grey;
 }

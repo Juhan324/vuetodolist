@@ -10,26 +10,22 @@
 </template>
 
 <script lang="ts">
-    import { Vue } from 'vue-class-component';    
-   
-    export default class Input extends Vue {
-        
-        autoincrement() : string{
-            if(localStorage.getItem("number") == null){
-                localStorage.setItem("number", "0");
-            }
-            localStorage.setItem("number",(Number(localStorage.getItem("number"))+1).toString());
-            return localStorage.getItem("number") as string;
-        }
+    import { Vue, prop } from 'vue-class-component';
+    
+    interface insert {
+        value : string,
+        checked : boolean
+    }
+
+    class Props {
+        list = prop<Array<insert>>({required:true})
+    }
+
+    export default class Input extends Vue.with(Props) {
 
 
         insertTodo() : boolean{
             const insertValue = (document.getElementById("insert") as HTMLInputElement).value;
-
-            interface insert {
-                value : string,
-                checked : boolean
-            }
 
             const insertInput : insert = {
                 value : insertValue,
@@ -40,14 +36,14 @@
                 alert("일정을 입력해주세요.");
                 return false;
             }
-            for(let i = 0; i < localStorage.length; i++){
-                if(insertInput.value == JSON.parse(localStorage.getItem(localStorage.key(i) as string) as string).value){
+            for(let i = 0; i < this.list.length; i++){
+                if(insertInput.value == this.list[i].value){
                     alert("이미 입력된 일정입니다.");
                     return false;
                 }
             }
-            const key : string = this.autoincrement();
-            localStorage.setItem(key, JSON.stringify(insertInput));
+            this.list.push(insertInput);
+            localStorage.setItem("todoList", JSON.stringify(this.list));
             (document.getElementById("insert") as HTMLInputElement).value="";
             return false;
         }

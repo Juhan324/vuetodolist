@@ -1,6 +1,6 @@
 <template>
     <div id = "outer">
-        <Input ref="inputBox"/>
+        <Input/>
         <div id = "listForm">
             <TodoList/>
         </div>
@@ -21,7 +21,6 @@
   export default class index extends Vue {
 
 }
-  
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
