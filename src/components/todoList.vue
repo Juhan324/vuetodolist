@@ -1,4 +1,5 @@
 <template>
+    <!--list를 바인딩하여 목록 출력-->
     <table>
         <tr id="todoList">
         <td class="complete">완료</td>
@@ -20,13 +21,13 @@
         value : string,
         checked : boolean
     }
-
+    //부모 컴포넌트에 있는 list를 가져옴
     class Props {
         list = prop<Array<insert>>({required:true})
     }
 
     export default class Input extends Vue.with(Props) {
-
+        //완료 여부를 list에 저장하여 새로고침할 때 해당 값으로 체크
         todoComplete(e:Event) {
             const checkbox : HTMLInputElement = e.target as HTMLInputElement;
             const id = (e.target as HTMLInputElement).parentElement!.id.slice(0,-5);
@@ -38,7 +39,7 @@
                 localStorage.setItem("todoList",JSON.stringify(this.list));
             }
         }
-        
+        //list에서 todo 삭제
         deleteTodo(item : MouseEvent) : void{
             const del = (item.target as HTMLInputElement).parentElement!.id;
             this.list.splice(this.list.findIndex(obj => obj.value==del),1);
